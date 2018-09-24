@@ -1,0 +1,77 @@
+<html>
+<p>some text here</p>
+
+<!-- canvas information -->
+<canvas id="gameCanvas" width="800" height="600"> </canvas>
+
+<script>
+//variables
+var canvas;
+var canvasContext;
+var ballX = 50;
+var ballSpeedX = 20;
+
+//onload ensures that everything loads first before the program starts.
+window.onload = function(){
+
+      //the statement below graves the canvas information from the html section at the top
+      //the statement then assigns the information to the variable set at the start of the script
+      canvas = document.getElementById('gameCanvas');
+      canvasContext = canvas.getContext('2d');
+
+      //interval is set by 1000/30fps
+      //every interval will proceed to use the two functions
+      var framesPerSecond = 30;
+      setInterval(function() {
+        moveEverything();
+        drawEverything();
+      }, 1000/framesPerSecond);
+}
+
+//this function moves the ball
+function moveEverything(){
+  ballX = ballX + ballSpeedX;
+
+  //if statement to make the ball bounce back from the right side of the screen
+  if(ballX > canvas.width){
+    ballSpeedX = -ballSpeedX;
+  }
+
+  //if statement to make the ball bounce back from the left side of the screen
+  if(ballX < 0){
+    ballSpeedX = -ballSpeedX;
+  }
+}
+
+//This is the function which organises where things are drawn, helper function
+function colorRect(leftX,topY, width,height, drawColor){
+canvasContext.fillStyle = drawColor;
+canvasContext.fillRect(leftX,topY, width,height);
+}
+
+//creating the dimensions for the ball, helper function
+function colorCircle(centerX, centerY, radius, drawColor){
+
+    canvasContext.fillStyle = drawColor;
+    canvasContext.beginPath();
+    //(X, Y, radius, angles and radius, clockwise or counter sections of the circle)
+    canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2, true);
+    canvasContext.fill();
+}
+
+//this function draws the shapes on the canvas
+function drawEverything() {
+  // next line blanks out the screen with black
+          colorRect(0,0,canvas.width,canvas.height,'black');
+
+          //this is left player's paddle
+          colorRect(0,210,10,100, 'white');
+
+          //next line draws the ball
+          colorCircle(ballX, 150, 10, 'white');
+}
+
+
+</script>
+
+</html>
